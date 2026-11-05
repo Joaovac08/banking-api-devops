@@ -81,3 +81,19 @@ pipeline {
         }
     }
 }
+        stage('Deploy to WSO2') {
+            steps {
+                echo "Publicando API no WSO2 API Manager..."
+                withCredentials([usernamePassword(
+                    credentialsId: 'wso2-credentials',
+                    usernameVariable: 'WSO2_USER',
+                    passwordVariable: 'WSO2_PASS'
+                )]) {
+                    sh """
+                        apictl login dev -u ${WSO2_USER} -p ${WSO2_PASS} -k --password-stdin <<< "${WSO2_PASS}" || true
+                        apictl init banking-api-project --oas openapi.yaml --force
+                        apictl import-api -f banking-api-project -e dev -k --update
+                    """
+                }
+            }
+        }
