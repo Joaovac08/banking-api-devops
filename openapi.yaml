@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: Banking API
+  version: 1.0.0
+  description: API de transferências bancárias com pipeline DevSecOps
+paths:
+  /api/v1/accounts:
+    post:
+      summary: Criar conta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                holderName:
+                  type: string
+                initialBalance:
+                  type: number
+      responses:
+        '201':
+          description: Conta criada
+  /api/v1/transfers:
+    post:
+      summary: Realizar transferência
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sourceId:
+                  type: integer
+                targetId:
+                  type: integer
+                amount:
+                  type: number
+      responses:
+        '200':
+          description: Transferência realizada
